@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.felord.security.mapper.ResourceMapper">
+
+    <resultMap id="ResourceDetail" type="cn.felord.common.entity.securityserver.dto.ResourceDetail">
+        <id column="resourceId" property="resourceId"/>
+        <result column="resourceName" property="resourceName"/>
+        <result column="uri" property="uri"/>
+        <result column="parentId" property="parentId"/>
+        <result column="sort" property="sort"/>
+        <result column="description" property="description"/>
+        <collection property="permissions" ofType="string">
+            <result column="type"/>
+        </collection>
+    </resultMap>
+
+    <select id="findByRoleId"
+            resultMap="ResourceDetail">
+        SELECT
+            C.RESOURCEID,
+            C.RESOURCENAME,
+            C.URI,
+            C.PARENTID,
+            C.SORT,
+            C.DESCRIPTION,
+            A.TYPE
+        FROM PERMISSION A INNER JOIN ROLE_PERMISSION B ON A.PERMISSIONID = B.PERMISSIONID
+            INNER JOIN RESOURCE C ON A.RESOURCEID = C.RESOURCEID AND C.ENABLED = '1'
+        WHERE ROLEID = #{roleId}
+    </select>
+</mapper>

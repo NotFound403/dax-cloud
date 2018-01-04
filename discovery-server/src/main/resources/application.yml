@@ -1,0 +1,29 @@
+server:
+  port: 8761
+eureka:
+  environment: prod
+  instance:
+    hostname: localhost
+  client:
+    healthcheck:
+      enabled: true
+#  通过下面两个子选项标明这个是一个server
+#   不向服务注册中心注册
+    registerWithEureka: false
+#    不检索服务
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    enable-self-preservation: true
+spring:
+  profiles:
+    active: prod
+hystrix:
+  command:
+    default:
+      circuitBreaker:
+        enabled: true
+management:
+  security:
+    enabled: false

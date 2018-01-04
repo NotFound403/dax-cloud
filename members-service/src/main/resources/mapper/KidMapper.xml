@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.felord.members.mapper.KidMapper">
+    <!--根据家长获取宝宝信息-->
+    <select id="findByParentId" resultType="cn.felord.common.entity.dto.KidDTO">
+        SELECT
+            A.ID PARKCLASSID,
+            A.CHILDNAME,
+            A.AGE,
+            A.SEX,
+            A.BIRTH,
+            A.LOVEINFO,
+            B.USERNAME,
+            A.STATUS,
+            A.OFFDATE,
+            A.PARENTID,
+            A.IMG,
+            B.ID PARKID,
+            B.PARKNAME
+        FROM members.kid A INNER JOIN members.PARENT C ON A.PARENTID = C.ID AND C.STATUS=0 AND A.STATUS=0  AND C.ID = #{parentId}
+            LEFT JOIN members.YOYOPARK B ON A.PARKID = B.ID
+
+    </select>
+    <!-- 根据卡片id获取宝宝信息 -->
+    <select id="findByKidId" resultType="cn.felord.common.entity.dto.KidDTO">
+        SELECT
+            A.ID PARKCLASSID,
+            A.CHILDNAME,
+            A.AGE,
+            A.SEX,
+            A.BIRTH,
+            A.LOVEINFO,
+            D.USERNAME,
+            A.STATUS,
+            A.OFFDATE,
+            A.PARENTID,
+            A.IMG,
+            D.ID PARKID,
+            D.PARKNAME
+        FROM members.KID A
+            INNER JOIN members.PARENT B ON A.PARENTID = B.ID
+            INNER JOIN members.YOYOPARK D ON A.PARKID = D.ID
+        WHERE   A.ID=#{kidId}
+    </select>
+</mapper>

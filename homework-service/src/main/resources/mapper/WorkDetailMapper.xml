@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.felord.homework.mapper.WorkDetailMapper">
+    <select id="findPageByGradeId" resultType="cn.felord.common.entity.dto.WorkDetailDTO">
+        SELECT
+            TITLE,
+            CONTENT,
+            GRADEID,
+            WORKTIME,
+            PUBLISHER
+        FROM HOMEWORK.WORKDETAIL
+        WHERE GRADEID = #{gradeId}
+        ORDER BY STR_TO_DATE(WORKTIME, '%Y-%m-%d')  DESC
+    </select>
+</mapper>

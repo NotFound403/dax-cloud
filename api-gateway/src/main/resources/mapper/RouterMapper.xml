@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.felord.gateway.mapper.RouterMapper">
+    <update id="routeSwitcher">
+        UPDATE GATEWAY.ROUTER
+        SET ENABLE = #{enable}
+        WHERE ROUTERID = #{routerId}
+    </update>
+
+    <select id="findAvailable" resultType="cn.felord.common.entity.gateway.RouterDTO">
+        SELECT *
+        FROM GATEWAY.ROUTER A LEFT JOIN GATEWAY.SENSITIVEHEADER B
+                ON A.ROUTERID = B.ROUTERID
+        WHERE A.CUSTOMSENSITIVEHEADERS = '0' AND (B.ENABLE = '1' OR B.ENABLE IS NULL) AND A.ENABLE = '1'
+    </select>
+</mapper>

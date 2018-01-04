@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.felord.members.mapper.TeacherMapper">
+    <update id="updateStatus">
+        UPDATE members.teacher
+        SET status = #{status}
+        WHERE id = #{teacherId} AND parkId = #{parkId}
+    </update>
+    <select id="findByCardId" resultType="cn.felord.common.entity.dto.TeacherDTO">
+        SELECT
+            T.PHONE,
+            T.NAME,
+            T.PARKID,
+            T.ID,
+            T.IMG
+        FROM CMS.YOYOTEACHER T
+            INNER JOIN
+            CMS.YOYOCARDEQUID YYD ON YYD.UID = T.ID
+        WHERE YYD.CARDID = #{cardId} AND
+              YYD.STATUS = 0
+    </select>
+</mapper>

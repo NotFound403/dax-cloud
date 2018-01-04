@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.felord.cookbook.mapper.CateringTypeMapper">
+
+    <select id="findByParkId" resultType="java.lang.String">
+        SELECT TYPENAME FROM FOOD.CATERINGTYPE
+        <where>
+            <if test="parkId !=null and parkId !=0">
+                PARKID=#{parkId}
+            </if>
+        </where>
+        ORDER BY SORT
+    </select>
+</mapper>

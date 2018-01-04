@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.felord.security.mapper.UserMapper">
+
+    <resultMap id="BaseMapper" type="cn.felord.common.entity.securityserver.User">
+        <id column="userId" property="userId"/>
+        <result column="userName" property="userName"/>
+        <result column="password" property="password"/>
+        <result column="createUser" property="createUser"/>
+        <result column="companyId" property="companyId"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="updateUser" property="updateUser"/>
+        <result column="enabled" property="enabled"/>
+    </resultMap>
+
+
+    <resultMap id="UserDetail" type="cn.felord.common.entity.securityserver.dto.UserDetail">
+        <id column="userId" property="userId"/>
+        <result column="roleId" property="roleId"/>
+        <result column="roleName" property="roleName"/>
+        <collection property="resourceDetails"
+                    ofType="cn.felord.common.entity.securityserver.dto.ResourceDetail">
+            <id column="resourceId" property="resourceId"/>
+            <result column="resourceName" property="resourceName"/>
+            <result column="uri" property="uri"/>
+            <result column="parentId" property="parentId"/>
+            <result column="sort" property="sort"/>
+            <result column="description" property="description"/>
+        </collection>
+    </resultMap>
+    <select id="findByName" resultType="cn.felord.common.entity.securityserver.User">
+        SELECT *
+        FROM springcloud.USER_INFO
+        WHERE USERNAME = #{userName} and enabled='1'
+    </select>
+    <select id="getUserDetail" resultType="cn.felord.common.entity.securityserver.dto.UserDetail">
+        SELECT
+            A.USERID,
+            B.ROLEID,
+            C.ROLENAME
+        FROM springcloud.USER_INFO A
+            LEFT JOIN springcloud.USER_ROLE B
+                ON A.USERID = B.USERID
+            LEFT JOIN springcloud.ROLE C
+                ON B.ROLEID = C.ROLEID AND C.ENABLED = '1'
+
+    </select>
+
+</mapper>

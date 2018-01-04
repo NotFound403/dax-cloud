@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.felord.security.mapper.RoleMapper">
+    <resultMap id="BaseMapper" type="cn.felord.common.entity.securityserver.Role">
+        <id column="roleId" property="roleId"/>
+        <result column="roleName" property="roleName"/>
+        <result column="description" property="description"/>
+        <result column="createUser" property="createUser"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="updateUser" property="updateUser"/>
+        <result column="enabled" property="enabled"/>
+    </resultMap>
+
+    <select id="findByName" resultType="cn.felord.common.entity.securityserver.Role">
+        SELECT *
+        FROM ROLE
+        WHERE ROLENAME = #{roleName}
+    </select>
+</mapper>

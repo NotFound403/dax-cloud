@@ -1,0 +1,24 @@
+server:
+  port: 9411
+spring:
+  application:
+    name: ZIPKIN-SERVER
+  datasource:
+    url: jdbc:mysql://192.168.1.119:3306/zipkin?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    username: root
+    password: root
+    continue-on-error: true
+    driver-class-name: com.mysql.jdbc.Driver
+zipkin:
+  storage:
+    type: mysql
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    prefer-ip-address: true
+management:
+  security:
+    enabled: false

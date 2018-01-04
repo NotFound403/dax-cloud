@@ -1,0 +1,29 @@
+server:
+  port: 8769
+spring:
+  application:
+    name: MONITOR
+  boot:
+    admin:
+      discovery:
+        ignored-services: monitor
+# eureka
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    prefer-ip-address: true
+management:
+  security:
+    enabled: false
+endpoints:
+  pause:
+    sensitive: false
+security:
+  basic:
+    enabled: false
+  user:
+    name: admin
+    password: admin

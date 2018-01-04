@@ -1,0 +1,62 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: MESSAGE-BUS
+# 消息队列
+  rabbitmq:
+    port: 5672
+    username: rabbitAdmin
+    password: 123456789
+    host: 192.168.1.126
+    listener:
+      simple:
+        acknowledge-mode: auto
+        concurrency: 1
+        max-concurrency: 10
+        retry:
+          enabled: true
+    publisher-confirms: true
+  zipkin:
+    base-url: http://localhost:9411
+  sleuth:
+    sampler:
+      percentage: 1.0
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    prefer-ip-address: true
+#     日志
+logging:
+  config: classpath:logback.xml
+#  关闭默认安全项
+management:
+  security:
+    enabled: false
+#  熔断器配置
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+#  全局ribbon 配置    如果自定  service    使用  <serviveid>.ribbon.<key>=value
+ribbon:
+  ReadTimeout: 30000
+  ConnectTimeout: 10000
+  #  最大失败重试次数
+  MaxAutoRetries: 1
+  # 切换服务器 最多重试次数
+  MaxAutoRetriesNextServer: 1
+  eureka:
+    enabled: true
+#    feign 启用容错模式
+feign:
+  hystrix:
+    enabled: true

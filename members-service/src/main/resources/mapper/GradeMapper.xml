@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.felord.members.mapper.GradeMapper">
+    <update id="updateStatus">
+        UPDATE MEMBERS.GRADE
+        SET STATUS = #{status}
+        WHERE ID = #{gradeId} AND PARKID = #{parkId}
+    </update>
+    <update id="updateName">
+        UPDATE MEMBERS.GRADE
+        SET tagname = #{name}
+        WHERE ID = #{gradeId} AND PARKID = #{parkId}
+    </update>
+    <select id="checkRepeat" resultType="cn.felord.common.entity.Grade">
+        SELECT *
+        FROM MEMBERS.GRADE
+        WHERE PARKID = #{parkId} AND TAGNAME = #{name} AND STATUS = 0
+    </select>
+    <select id="findByTeacher" resultType="cn.felord.common.entity.Grade">
+        SELECT *
+        FROM members.grade a INNER JOIN members.gradeteacher b ON classid = a.id AND b.teacherid = #{teacherId}
+    </select>
+</mapper>

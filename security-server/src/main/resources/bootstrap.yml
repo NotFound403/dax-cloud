@@ -1,0 +1,85 @@
+server:
+  port: 8400
+spring:
+  application:
+    name: SECURITY-SERVER
+#    数据源配置
+  datasource:
+   druid:
+     url: jdbc:mysql://192.168.1.119:3306/springcloud?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false
+     username: root
+     password: root
+     driverClassName: com.mysql.jdbc.Driver
+     initialSize: 10
+     minIdle: 5
+     maxActive: 20
+     maxWait: 60000
+     timeBetweenEvictionRunsMillis: 60000
+     minEvictableIdleTimeMillis: 30000
+     validationQuery: SELECT 1 FROM DUAL
+     testWhileIdle: true
+     testOnBorrow: false
+     testOnReturn: false
+     poolPreparedStatements: true
+     maxPoolPreparedStatementPerConnectionSize: 20
+     filters: stat,wall,slf4j
+  zipkin:
+    base-url: http://localhost:9411
+  sleuth:
+    sampler:
+      percentage: 1.0
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    prefer-ip-address: true
+#     关闭 自动生成 user 否则401 错误
+security:
+  basic:
+    enabled: false
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+#     实体扫描，多个package用逗号或者分号分隔
+  type-aliases-package: cn.felord.common.entity.securityserver
+  global-config:
+#     主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+    id-type: 3
+#     生产环境 关闭  调试mapper
+    refresh-mapper: true
+  configuration:
+     cache-enabled: false
+#     数据库 下划线转驼峰
+     map-underscore-to-camel-case: false
+#     日志
+logging:
+  config: classpath:logback.xml
+#  关闭默认安全项
+management:
+  security:
+    enabled: false
+#  熔断器配置
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+#  全局ribbon 配置    如果自定  service    使用  <serviveid>.ribbon.<key>=value
+ribbon:
+  ReadTimeout: 30000
+  ConnectTimeout: 10000
+  #  最大失败重试次数
+  MaxAutoRetries: 1
+  # 切换服务器 最多重试次数
+  MaxAutoRetriesNextServer: 1
+  eureka:
+    enabled: true
+#    feign 启用容错模式
+feign:
+  hystrix:
+    enabled: true
